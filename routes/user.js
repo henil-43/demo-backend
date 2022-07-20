@@ -8,12 +8,12 @@ router.post('/signup', signup)
 
 router.post('/login', login)
 
-router.get('/get-users/', getAllUsers)
+router.get('/get-users/', isAuthenticated, getAllUsers)
 
-router.get('/get-user/:id', getUserById)
+router.get('/get-user/:id', isAuthenticated, getUserById)
 
-router.put('/update-user/:id', updateUser)
+router.put('/update-user/:id', isAuthenticated, updateUser)
 
-router.delete('/delete-user/:id', deleteUser)
+router.delete('/delete-user/:id', isAuthenticated, deleteUser)
 
 module.exports = router
