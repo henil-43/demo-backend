@@ -3,6 +3,9 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 var app = express()
+var server = require('http').createServer(app)
+const socket = require('socket.io')(server)
+server.listen(8080);
 
 require('dotenv').config()
 const userRoutes = require('./routes/user')
@@ -29,7 +32,7 @@ var corsOption = {
 app.use(cors(corsOption))
 
 app.use(helmet({
-    contentSecurityPolicy: false
+    contentSecurityPolicy: false,
 }))
 
 app.use("/api/", userRoutes)
@@ -39,12 +42,9 @@ app.use('/api/',shiftRoutes)
 app.use('/api', chatRoutes)
 
 
-const server = app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log(`APIs are running on http://localhost:${process.env.PORT}`)
 })
-
-const socket = require('socket.io')(server)
-
 
 const io = socket.listen(server)
 
@@ -57,6 +57,6 @@ const io = socket.listen(server)
     
         socket.on('save-message', (data) => {
             console.log(data)
-            io.emit('new-message', {message: data})
+            io.emit('new-message', data)
         })
     })

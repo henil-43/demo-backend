@@ -3,7 +3,10 @@ const { Chat } = require('../modules/chat')
 exports.getChats = async (req, res) => {
     try{
         const id = req.params.id
-        var data = await Chat.findById()
+        console.log(id)
+        var data = await Chat.find({roomId: id})
+
+        console.log(data)
         
         return res.status(200).json({
             "isSuccess": true,
@@ -26,7 +29,21 @@ exports.getChats = async (req, res) => {
 
 exports.addChat = async (req, res) => {
     try{
-        
+        const {roomId, message, from} = req.body
+
+        const chat = new Chat()
+        chat.roomId = roomId;
+        chat.message = message;
+        chat.from = from
+
+        const savedChat = await chat.save()
+
+        return res.status(200).json({
+            "isSuccess": true,
+            "message": "Message added successfully",
+            "data": savedChat,
+            "status":200
+        })
     }
     catch(err){
         console.log(err)
