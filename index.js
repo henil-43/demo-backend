@@ -4,7 +4,11 @@ const cors = require('cors')
 const helmet = require('helmet')
 var app = express()
 var server = require('http').createServer(app)
-const socket = require('socket.io')(server)
+const socket = require('socket.io')(server, {
+    cors: {
+        origin: '*'
+    }
+})
 server.listen(8080);
 
 require('dotenv').config()
@@ -56,7 +60,8 @@ const io = socket.listen(server)
         })
     
         socket.on('save-message', (data) => {
-            console.log(data)
             io.emit('new-message', data)
         })
     })
+
+app.set('io',io)

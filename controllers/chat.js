@@ -3,10 +3,7 @@ const { Chat } = require('../modules/chat')
 exports.getChats = async (req, res) => {
     try{
         const id = req.params.id
-        console.log(id)
         var data = await Chat.find({roomId: id})
-
-        console.log(data)
         
         return res.status(200).json({
             "isSuccess": true,
