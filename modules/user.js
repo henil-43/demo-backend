@@ -27,6 +27,9 @@ const userSchema = mongoose.Schema({
     },
     salt: {
         type: String
+    },
+    status: {
+        type: Boolean
     }
 }, {timestamps: true})
 

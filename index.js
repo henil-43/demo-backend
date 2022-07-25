@@ -62,6 +62,10 @@ const io = socket.listen(server)
         socket.on('save-message', (data) => {
             io.emit('new-message', data)
         })
+
+        socket.on('update-status', (data) => {
+            io.emit('status-changed', data)
+        })
     })
 
 app.set('io',io)

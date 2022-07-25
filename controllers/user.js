@@ -247,3 +247,34 @@ exports.deleteUser = async (req, res) => {
         })
     }
 }
+
+exports.toggleActiveStatus = async(req, res) => {
+    try{
+        const id = req.params.id;
+        const { status } = req.body;
+
+        const data = await User.findById(id)
+        data.status = status
+        const newData = await data.save()
+
+        return res.status(200).json({
+            "isSuccess": true,
+            "message": "Status updated",
+            "data": {
+                status: status,
+                userId: newData._id
+            },
+            "status": 200
+        })
+    }
+    catch(err){
+        console.log(err)
+
+        return res.status(500).json({
+            "isSuccess": true,
+            "message": "Internal server error!",
+            "data": "",
+            "status": 500
+        })       
+    }
+}
