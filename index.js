@@ -6,8 +6,12 @@ var app = express()
 var server = require('http').createServer(app)
 const socket = require('socket.io')(server, {
     cors: {
-        origin: '*'
-    }
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true,
+        transports: ['websocket', 'polling'],
+    },
+    allowEIO3: true
 })
 server.listen(8080);
 
@@ -50,7 +54,7 @@ app.listen(process.env.PORT, () => {
     console.log(`APIs are running on http://localhost:${process.env.PORT}`)
 })
 
-const io = socket.listen(server)
+const io = socket.listen(server, {serveClient: true})
 
     io.on('connection', (socket) => {
         console.log("user connected")
